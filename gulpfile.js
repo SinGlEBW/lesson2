@@ -13,7 +13,7 @@ const fs = require('fs'),
     autoprefixer = require('gulp-autoprefixer'),
     uglifyES = require('gulp-uglify-es').default,
     browserSync = require('browser-sync').create();
-      
+ 
 
 
 gulp.task('nsmpscss', () => {
@@ -114,7 +114,7 @@ let set = new Config({
 
 let myFunc = function(file){
 
-    let arrPath =  fs.readdirSync(file) .map((item) => {
+    let arrPath =  fs.readdirSync(file).map((item) => {
                     
       let value
       if(item.endsWith('.jsx')) 
@@ -154,11 +154,11 @@ console.dir(dd);
 
 /*-------Функции для стежки и отдельного выполнения таском--------------------*/
 
-let reactJSX = async function(file){//для работы import в React
+let reactJSX =  function(file){//для работы import в React
   
-  let arrFullPath = await set.files(file);
+  let arrFullPath =  set.files(file);
   
-  return await (
+  return  (
     arrFullPath.map((items) => {
 
       return (
@@ -196,11 +196,11 @@ let compress = function(){
       .pipe(gulp.dest('app/React/srcr')) )
 }
 
-let scssCSS = async function(file){
+let scssCSS = function(file){
   
   
   
-  return await (
+  return (
     gulp.src(set.convertPath(arrFullPath))//
         .pipe(sass.sync({outputStyle: "compressed"}).on('error', sass.logError))
         .pipe(autoprefixer({

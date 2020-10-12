@@ -13,3 +13,8 @@ for(let i = 0; i <= vertices; i++){
   }
   lines.push(point)
 }
+
+/*Гипотенуза*/
+с = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));//c = корень из (a в квадрате + b в квадрате)
+/*Катет */
+a = Math.sqrt(Math.pow(c, 2) - Math.pow(b, 2));//c = корень из (a в квадрате + b в квадрате)
