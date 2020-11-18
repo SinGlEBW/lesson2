@@ -9,11 +9,6 @@ const { minify } = require('uglify-js');
 let outPathCss = "src/css/style.css";
 let outPathJS = "src/js/bundle.js";
 
-let ev = require('events');
-
-
-ev.EventEmitter()
-
 bs.init({
   server: {
     baseDir: "src",
@@ -77,10 +72,3 @@ function watchSCSS(event, file) {
 
 
 
-/*
-  Gulp нужен что бы задачи хранить в одном фале и вызывать их через консоль.
-  Без gulp настраиваем один файл под выполнение определённой задачи, запускать можем только
-  файл целиком посредством node файл.js.
-  Ещё вариант запуска задач через npm run, но это опять подразумевает создавать разные файлы
-  под разные задачи. 
-*/
