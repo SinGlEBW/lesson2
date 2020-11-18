@@ -9,6 +9,11 @@ const { minify } = require('uglify-js');
 let outPathCss = "src/css/style.css";
 let outPathJS = "src/js/bundle.js";
 
+let ev = require('events');
+
+
+ev.EventEmitter()
+
 bs.init({
   server: {
     baseDir: "src",
@@ -18,7 +23,7 @@ bs.init({
   notify: false,
   scrollProportionally: false,
   watch: true,
-  xip: true,//при старте обновить файлы
+  //xip: true,//при старте обновить файлы
 
   files: [
     {
@@ -32,7 +37,6 @@ bs.init({
         cwd: 'src',//базовый каталог
       }
     },
-    
   ],
 });
 
@@ -49,8 +53,8 @@ function watchJS(event, file) {
 
     if (err) console.dir(err);
     else {
-      let data = minify(buffer.toString(), {}).code;
-      fs.createWriteStream(outPathJS).write(data);
+      // let data = minify(buffer.toString(), {}).code;
+      fs.createWriteStream(outPathJS).write(buffer);//data
     } 
   });
 }
@@ -69,6 +73,8 @@ function watchSCSS(event, file) {
     ); 
   }, 300);
 }
+
+
 
 
 /*

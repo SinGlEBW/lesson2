@@ -1,5 +1,3 @@
-
-
 //Слайдер зависит от flexBox
 // export default function multiItemSlider (selector, config) {
 //   let
