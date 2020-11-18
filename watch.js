@@ -1,50 +1,80 @@
-var bs = require("browser-sync").create();
+const bs = require("browser-sync");
+const browserify = require("browserify");
+const fs = require("fs");
+const { render } = require("node-sass");
+const babelify = require('babelify');
+
+const { minify } = require('uglify-js');
+
+let outPathCss = "src/css/style.css";
+let outPathJS = "src/js/bundle.js";
 
 bs.init({
-  server: true,
-  notify: false,
-});
-let exp = ['*.html', './css/*.css', './js/*.js']
-bs.watch(exp).on('change', bs.reload);
+  server: {
+    baseDir: "src",
+    index: "index.html"
+  },
 
+  notify: false,
+  scrollProportionally: false,
+  watch: true,
+  xip: true,//при старте обновить файлы
+
+  files: [
+    {
+      match: "**/*.scss",
+      fn: watchSCSS,
+    },
+    {
+      match: "js/dev/*.js",
+      fn: watchJS,
+      options: {
+        cwd: 'src',//базовый каталог
+      }
+    },
+    
+  ],
+});
+
+function watchJS(event, file) {
+  let jsFile = fs.readdirSync('src/js/dev');
+  browserify(jsFile, {
+    basedir: "src/js/dev",
+    debug: true,
+  })
+  .transform(babelify, {
+    presets: ['@babel/preset-env'],
+  })
+  .bundle((err, buffer) => {
+
+    if (err) console.dir(err);
+    else {
+      let data = minify(buffer.toString(), {}).code;
+      fs.createWriteStream(outPathJS).write(data);
+    } 
+  });
+}
+
+function watchSCSS(event, file) {
+
+  setTimeout(() => {
+    render({
+        file: "src/css/scss/style.scss",
+        outputStyle: "compressed",
+      },
+      (err, result) => {
+        if (err) console.error(err);
+        else fs.createWriteStream(outPathCss).write(result.css);
+      }
+    ); 
+  }, 300);
+}
 
 
 /*
-  "dependencies": {
-    "express": "^4.17.1",
-    "express-handlebars": "^4.0.3",
-    "handlebars": "^4.7.6",
-    "magnific-popup": "^1.1.0",
-    "multer": "^1.4.2",
-    "mysql": "^2.18.1",
-    "normalize.css": "^8.0.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "requirejs": "^2.3.6",
-    "slick-carousel": "^1.8.1"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/plugin-syntax-class-properties": "^7.8.3",
-    "@babel/preset-env": "^7.9.6",
-    "@babel/preset-react": "^7.9.4",
-    "babelify": "^10.0.0",
-    "browser-sync": "^2.26.7",
-    "browserify": "^16.5.1",
-    "gulp": "^4.0.2",
-    "gulp-autoprefixer": "^7.0.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^4.0.2",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-uglify": "^3.0.2",
-    "gulp-uglify-es": "^2.0.0",
-    "gulp-watch": "^5.0.1",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0",
-    "nodemon": "^2.0.2"
-  },
-
-
+  Gulp нужен что бы задачи хранить в одном фале и вызывать их через консоль.
+  Без gulp настраиваем один файл под выполнение определённой задачи, запускать можем только
+  файл целиком посредством node файл.js.
+  Ещё вариант запуска задач через npm run, но это опять подразумевает создавать разные файлы
+  под разные задачи. 
 */

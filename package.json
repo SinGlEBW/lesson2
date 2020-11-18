@@ -10,10 +10,21 @@
   },
   "author": "SinGlEBW",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "bootstrap": "^4.5.3",
+    "jquery": "^3.5.1"
+  },
   "devDependencies": {
-    "browser-sync": "^2.26.12",
-    "browserify": "^17.0.0",
-    "gulp": "^4.0.2"
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "babel-preset-minify": "^0.5.1",
+    "babelify": "^10.0.0",
+    "browser-sync": "^2.26.13",
+    "node-sass": "^4.14.1",
+    "uglify-js": "^3.11.5",
+    "browserify": "^17.0.0"
+  },
+  "eslintConfig": {
+    "ignorePatterns": "/README"
   }
 }

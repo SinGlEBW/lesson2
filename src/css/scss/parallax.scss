@@ -1,0 +1,19 @@
+.parallax{
+  position: relative;
+}
+.parallax__img{
+  height: 100vh;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.parallax__img:nth-child(1){
+  background-image: url(../img/img1.jpg);
+}
+.parallax__img:nth-child(2){
+  background-image: url(../img/img2.jpg);
+}
+.parallax__img:nth-child(3){
+  background-image: url(../img/img3.jpg);
+}
